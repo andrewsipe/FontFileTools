@@ -21,6 +21,13 @@ import sys
 from pathlib import Path
 from typing import List, Set
 
+# Add project root to path for FontCore imports (works for root and subdirectory scripts)
+_project_root = Path(__file__).parent
+while not (_project_root / "FontCore").exists() and _project_root.parent != _project_root:
+    _project_root = _project_root.parent
+if str(_project_root) not in sys.path:
+    sys.path.insert(0, str(_project_root))
+
 import FontCore.core_console_styles as cs
 from FontCore.core_file_collector import iter_font_files
 
