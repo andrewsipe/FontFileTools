@@ -1,0 +1,12 @@
+# Tools dependencies
+# Various utility tools for font processing, fixing, and analysis.
+
+# Core dependencies (required by all scripts)
+fonttools>=4.40.0
+rich>=13.0.0
+
+# Font feature processing (optional but recommended for OpenType features)
+fontFeatures>=0.5.0
+
+# XML processing (for TTX-based tools)
+lxml>=4.9.0
