@@ -22,7 +22,7 @@ import xml.etree.ElementTree as ET
 from fontTools.ttLib import TTFont
 from fontTools.ttLib.tables.otTables import Coverage, ExtensionSubst, ExtensionPos
 
-import core.core_console_styles as cs
+import FontCore.core_console_styles as cs
 
 
 def find_all_coverage_tables(font):

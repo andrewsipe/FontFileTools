@@ -21,8 +21,8 @@ import sys
 from pathlib import Path
 from typing import List, Set
 
-import core.core_console_styles as cs
-from core.core_file_collector import iter_font_files
+import FontCore.core_console_styles as cs
+from FontCore.core_file_collector import iter_font_files
 
 # Font extensions to include (excluding TTX as specified)
 FONT_EXTENSIONS: Set[str] = {".ttf", ".otf", ".woff", ".woff2"}

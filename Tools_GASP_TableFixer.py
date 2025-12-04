@@ -26,7 +26,7 @@ import xml.etree.ElementTree as ET
 
 from fontTools.ttLib import TTFont, newTable
 
-import core.core_console_styles as cs
+import FontCore.core_console_styles as cs
 
 # Keep label aliases for parity with other scripts
 updated_label = cs.UPDATED_LABEL

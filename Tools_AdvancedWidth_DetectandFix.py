@@ -21,8 +21,8 @@ from typing import Dict, Tuple, Optional, List, Union
 import shutil
 import logging
 
-import core.core_console_styles as cs
-from core.core_file_collector import iter_font_files
+import FontCore.core_console_styles as cs
+from FontCore.core_file_collector import iter_font_files
 
 try:
     from fontTools.ttLib import TTFont

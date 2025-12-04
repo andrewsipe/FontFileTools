@@ -16,7 +16,7 @@ import re
 from pathlib import Path
 import xml.etree.ElementTree as ET
 
-import core.core_console_styles as cs
+import FontCore.core_console_styles as cs
 
 
 def extract_glyph_order(ttx_path):

@@ -19,7 +19,7 @@ import xml.etree.ElementTree as ET
 from fontTools.ttLib import TTFont
 from fontTools.ttLib.tables._n_a_m_e import NameRecord
 
-import core.core_console_styles as cs
+import FontCore.core_console_styles as cs
 
 try:
     from rich.console import Console

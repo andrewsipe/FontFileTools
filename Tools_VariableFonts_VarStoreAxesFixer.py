@@ -14,10 +14,10 @@ import xml.etree.ElementTree as ET
 from pathlib import Path
 from typing import Tuple
 
-import core.core_console_styles as cs
+import FontCore.core_console_styles as cs
 
 try:
-    from core.core_ttx_table_io import load_ttx, write_ttx  # type: ignore
+    from FontCore.core_ttx_table_io import load_ttx, write_ttx  # type: ignore
 except Exception:
     load_ttx = None  # type: ignore
     write_ttx = None  # type: ignore

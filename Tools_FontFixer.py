@@ -58,8 +58,8 @@ except ImportError:
     print("Install with: pip install fonttools")
     sys.exit(1)
 
-import core.core_console_styles as cs
-from core.core_file_collector import collect_font_files
+import FontCore.core_console_styles as cs
+from FontCore.core_file_collector import collect_font_files
 
 try:
     from rich.markup import escape

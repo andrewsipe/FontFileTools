@@ -20,9 +20,9 @@ from pathlib import Path
 from typing import Dict, List, Optional, Tuple, Any
 from dataclasses import dataclass, asdict
 from fontTools.ttLib import TTFont
-import core.core_console_styles as cs
-from core.core_file_collector import collect_font_files
-from core.core_error_handling import ErrorTracker, ErrorContext
+import FontCore.core_console_styles as cs
+from FontCore.core_file_collector import collect_font_files
+from FontCore.core_error_handling import ErrorTracker, ErrorContext
 
 logger = cs.get_logger(__name__)
 console = cs.get_console()
