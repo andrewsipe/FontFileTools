@@ -41,8 +41,12 @@ from fontTools.ttLib.tables._n_a_m_e import NameRecord
 
 # Add project root to path for FontCore imports (works for root and subdirectory scripts)
 import sys
+
+# ruff: noqa: E402
 _project_root = Path(__file__).parent
-while not (_project_root / "FontCore").exists() and _project_root.parent != _project_root:
+while (
+    not (_project_root / "FontCore").exists() and _project_root.parent != _project_root
+):
     _project_root = _project_root.parent
 if str(_project_root) not in sys.path:
     sys.path.insert(0, str(_project_root))

@@ -59,8 +59,11 @@ except ImportError:
     sys.exit(1)
 
 # Add project root to path for FontCore imports (works for root and subdirectory scripts)
+# ruff: noqa: E402
 _project_root = Path(__file__).parent
-while not (_project_root / "FontCore").exists() and _project_root.parent != _project_root:
+while (
+    not (_project_root / "FontCore").exists() and _project_root.parent != _project_root
+):
     _project_root = _project_root.parent
 if str(_project_root) not in sys.path:
     sys.path.insert(0, str(_project_root))
@@ -2447,8 +2450,65 @@ class FontFixer:
 
         return problematic_glyphs
 
-    def _is_corruption_type(self, exc_type: type, error_str: str) -> bool:
-        """Determine if exception type/message indicates corruption."""
+    def _is_variable_font(self, font: Optional[Any]) -> bool:
+        """
+        Detect if a font is a variable font by checking for variable font tables.
+
+        Variable font tables:
+        - fvar: Required for variable fonts (font variations)
+        - gvar: Glyph variations (TrueType outlines)
+        - cvar: CVT variations (TrueType hinting)
+        - avar: Axis variations (axis mapping)
+        - HVAR: Horizontal metrics variations
+        - VVAR: Vertical metrics variations
+        - MVAR: Metrics variations
+
+        Note: STAT table is not variable-specific - newer static fonts may contain it.
+
+        Args:
+            font: TTFont object or None
+
+        Returns:
+            True if font is variable (has fvar table, or other var tables indicating variable font), False otherwise
+        """
+        if font is None:
+            return False
+        try:
+            # fvar is the definitive indicator of a variable font
+            if "fvar" in font:
+                return True
+
+            # Other variable font tables (typically exist alongside fvar)
+            # If they exist without fvar, the font is problematic but still variable-like
+            var_tables = ["gvar", "cvar", "avar", "HVAR", "VVAR", "MVAR"]
+            return any(table in font for table in var_tables)
+        except Exception:
+            return False
+
+    def _is_corruption_type(
+        self,
+        exc_type: type,
+        error_str: str,
+        exc: Optional[Exception] = None,
+        context: str = "",
+        font: Optional[Any] = None,
+    ) -> bool:
+        """
+        Determine if exception type/message indicates corruption.
+
+        Enhanced to inspect tracebacks and consider context (especially save operations
+        for variable fonts).
+
+        Args:
+            exc_type: Exception type
+            error_str: Error message string
+            exc: Optional exception object for traceback inspection
+            context: Context string (e.g., "while saving", "during font loading")
+            font: Optional TTFont object to check if variable font
+
+        Returns:
+            True if exception indicates font corruption, False otherwise
+        """
         corruption_patterns = {
             AssertionError: ["gvar", "TupleVariation", "table", "glyph", "font"],
             TTLibError: ["*"],  # All TTLibError = corruption
@@ -2462,7 +2522,77 @@ class FontFixer:
         if "*" in patterns:
             return True
 
-        return any(keyword in error_str.lower() for keyword in patterns)
+        # Check error message for keywords
+        error_lower = error_str.lower()
+        if any(keyword in error_lower for keyword in patterns):
+            return True
+
+        # If error message is generic/empty, inspect traceback
+        if exc is not None and (
+            not error_str or error_str == "No error message provided"
+        ):
+            try:
+                tb_str = "".join(
+                    traceback.format_exception(type(exc), exc, exc.__traceback__)
+                )
+                tb_lower = tb_str.lower()
+
+                # Check traceback for font-related keywords
+                font_keywords = [
+                    "gvar",
+                    "fvar",
+                    "tuplevariation",
+                    "table",
+                    "glyph",
+                    "font",
+                    "ttfont",
+                    "ttlib",
+                    "cmap",
+                    "os/2",
+                    "hmtx",
+                    "vmtx",
+                ]
+                if any(keyword in tb_lower for keyword in font_keywords):
+                    return True
+            except Exception:
+                pass
+
+        # Special handling for save-time errors
+        if "saving" in context.lower() or "save" in context.lower():
+            # For variable fonts, any error during save is likely corruption
+            if font is not None and self._is_variable_font(font):
+                # Variable fonts are more sensitive - treat save errors as corruption
+                if exc_type in (IndexError, AssertionError, AttributeError, ValueError):
+                    return True
+
+            # For any font, if error occurs during save and matches suspicious types
+            # and traceback shows font table operations, treat as corruption
+            if exc is not None and exc_type in (
+                IndexError,
+                AssertionError,
+                AttributeError,
+            ):
+                try:
+                    tb_str = "".join(
+                        traceback.format_exception(type(exc), exc, exc.__traceback__)
+                    )
+                    tb_lower = tb_str.lower()
+                    # Check if traceback shows font table operations
+                    if any(
+                        keyword in tb_lower
+                        for keyword in [
+                            "ttfont",
+                            "ttlib",
+                            "table",
+                            "compile",
+                            "getTableData",
+                        ]
+                    ):
+                        return True
+                except Exception:
+                    pass
+
+        return False
 
     def _format_bounds_overflow_error(self, error_str: str) -> Optional[str]:
         """
@@ -2510,6 +2640,7 @@ class FontFixer:
         context: str = "",
         quarantine_dir: Optional[Path] = None,
         input_root: Optional[Path] = None,
+        font: Optional[Any] = None,
     ):
         """
         Context manager for detecting and handling font corruption.
@@ -2523,8 +2654,16 @@ class FontFixer:
         If a non-corruption exception occurs:
         - Re-raises the exception for caller to handle
 
+        Args:
+            font_path: Path to the font file
+            result: FontFixResult to update
+            context: Context string describing where error occurred
+            quarantine_dir: Quarantine directory path
+            input_root: Root input directory for relative path calculation
+            font: Optional TTFont object for variable font detection
+
         Usage:
-            with self.corruption_handler(font_path, result, "during saving", ...):
+            with self.corruption_handler(font_path, result, "during saving", ..., font=font):
                 font.save(output_path)
                 result.success = True  # Only reached if no exception
                 result.was_modified = True
@@ -2534,10 +2673,12 @@ class FontFixer:
         try:
             yield
         except Exception as e:
-            error_str = str(e)
+            error_str = str(e) if str(e) else "No error message provided"
 
-            # Check if this is corruption
-            is_corrupt = self._is_corruption_type(type(e), error_str)
+            # Check if this is corruption (pass exception object and context for enhanced detection)
+            is_corrupt = self._is_corruption_type(
+                type(e), error_str, exc=e, context=context, font=font
+            )
 
             if is_corrupt:
                 # Check if this is a bounding box overflow error that needs special formatting
@@ -2558,6 +2699,11 @@ class FontFixer:
                         result.quarantined = True
                         result.quarantine_path = str(qpath)
                         error_msg += f" (quarantined to {qpath})"
+                    elif self.verbose:
+                        # Log quarantine failure for debugging
+                        self.log(
+                            f"Warning: Failed to quarantine {font_path} (quarantine_dir={quarantine_dir}, input_root={input_root})"
+                        )
 
                 result.add_error(error_msg, include_traceback=self.verbose)
                 result.success = False
@@ -2638,16 +2784,35 @@ class FontFixer:
         Returns:
             Path to quarantined file if successful, None otherwise
         """
-        if not self.quarantine_enabled or quarantine_dir is None:
+        # Debug logging
+        if self.verbose:
+            self.log(
+                f"Quarantine check: enabled={self.quarantine_enabled}, dir={quarantine_dir}, input_root={input_root}"
+            )
+
+        if not self.quarantine_enabled:
+            if self.verbose:
+                self.log(f"Quarantine disabled, skipping {font_path}")
+            return None
+
+        if quarantine_dir is None:
+            if self.verbose:
+                self.log(f"Quarantine directory is None, cannot quarantine {font_path}")
             return None
 
         try:
             # Calculate relative path from input root to preserve directory structure
             try:
                 relative_path = font_path.relative_to(input_root)
+                if self.verbose:
+                    self.log(f"Calculated relative path: {relative_path}")
             except ValueError:
                 # Font is not under input root, use just the filename
                 relative_path = Path(font_path.name)
+                if self.verbose:
+                    self.log(
+                        f"Font not under input_root, using filename: {relative_path}"
+                    )
 
             # Build quarantine path
             quarantine_path = quarantine_dir / relative_path
@@ -2662,19 +2827,29 @@ class FontFixer:
                         quarantine_path.parent / f"{stem}~{counter:03d}{suffix}"
                     )
                     counter += 1
+                if self.verbose:
+                    self.log(f"Quarantine path collision, using: {quarantine_path}")
 
             # Create parent directories
             quarantine_path.parent.mkdir(parents=True, exist_ok=True)
+            if self.verbose:
+                self.log(f"Created quarantine directory: {quarantine_path.parent}")
 
             # Move file to quarantine
             import shutil
 
             shutil.move(str(font_path), str(quarantine_path))
 
+            if self.verbose:
+                self.log(f"Successfully quarantined {font_path} to {quarantine_path}")
+
             return quarantine_path
         except Exception as e:
             if self.verbose:
                 self.log(f"Failed to quarantine {font_path}: {e}")
+                import traceback
+
+                self.log(f"Quarantine error traceback: {traceback.format_exc()}")
             return None
 
     def fix_font(
@@ -2819,9 +2994,21 @@ class FontFixer:
                 # Restore flavor before saving
                 font.flavor = original_flavor
 
+                # Detect if this is a variable font for enhanced error detection
+                is_variable = self._is_variable_font(font)
+                if is_variable and self.verbose:
+                    self.log(
+                        "Detected variable font, using enhanced corruption detection"
+                    )
+
                 # Attempt to save with improved error handling
                 with self.corruption_handler(
-                    font_path, result, "while saving", quarantine_dir, input_root
+                    font_path,
+                    result,
+                    "while saving",
+                    quarantine_dir,
+                    input_root,
+                    font=font,
                 ):
                     font.save(str(output_path))
                     result.success = True
@@ -2833,16 +3020,22 @@ class FontFixer:
 
         except TTLibError as e:
             # Font loading or table access error
-            error_str = str(e)
+            error_str = str(e) if str(e) else "No error message provided"
             context = "during font loading"
 
-            if self._is_corruption_type(TTLibError, error_str):
+            if self._is_corruption_type(
+                TTLibError, error_str, exc=e, context=context, font=font
+            ):
                 # Handle corruption directly
                 if self.quarantine_enabled and input_root and quarantine_dir:
                     qpath = self._quarantine_font(font_path, quarantine_dir, input_root)
                     if qpath:
                         result.quarantined = True
                         result.quarantine_path = str(qpath)
+                    elif self.verbose:
+                        self.log(
+                            f"Warning: Failed to quarantine {font_path} (TTLibError)"
+                        )
                 result.add_error(
                     f"Font corruption detected {context}: {type(e).__name__}: {error_str}",
                     include_traceback=self.verbose,
@@ -2873,14 +3066,20 @@ class FontFixer:
                 # Fallback if variable checks fail
                 context = "during font processing"
 
-            # Check if corruption-related
-            if self._is_corruption_type(type(e), error_str):
+            # Check if corruption-related (pass exception object and context for enhanced detection)
+            if self._is_corruption_type(
+                type(e), error_str, exc=e, context=context, font=font
+            ):
                 # Handle corruption directly
                 if self.quarantine_enabled and input_root and quarantine_dir:
                     qpath = self._quarantine_font(font_path, quarantine_dir, input_root)
                     if qpath:
                         result.quarantined = True
                         result.quarantine_path = str(qpath)
+                    elif self.verbose:
+                        self.log(
+                            f"Warning: Failed to quarantine {font_path} (Exception: {error_type})"
+                        )
                 result.add_error(
                     f"Font corruption detected {context}: {error_type}: {error_str}",
                     include_traceback=(isinstance(e, AssertionError) or self.verbose),
@@ -3424,6 +3623,11 @@ def _display_common_fixes(results: list[Dict]):
     """Display most common fixes applied."""
     common_fixes = {}
     for result in results:
+        # Only count fixes from successfully processed and saved files
+        # This ensures consistency with the "updated" count
+        if not result.get("success", False) or not result.get("was_modified", False):
+            continue
+
         for handler, changes in result.get("changes", {}).items():
             for prop in changes.keys():
                 if changes[prop].get("changed"):
@@ -3448,6 +3652,11 @@ def _display_handler_statistics(results: list[Dict]):
     handler_unchanged_counts = {}
 
     for result in results:
+        # Only count handlers from successfully processed files
+        # This ensures statistics match the "updated" count which only includes successful saves
+        if not result.get("success", False):
+            continue
+
         for handler in result.get("handlers_changed", []):
             spec = _get_handler_spec_by_full_name(handler)
             handler_display = spec.short_name if spec else handler
