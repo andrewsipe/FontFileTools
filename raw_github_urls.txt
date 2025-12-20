@@ -11,6 +11,7 @@ https://raw.githubusercontent.com/andrewsipe/FontFileTools/main/Tools_RIBBI_Name
 https://raw.githubusercontent.com/andrewsipe/FontFileTools/main/Tools_ReCenter_A_Glyph.py
 https://raw.githubusercontent.com/andrewsipe/FontFileTools/main/Tools_TTX_GSUB_GPOS_CoverageTableSorter.py
 https://raw.githubusercontent.com/andrewsipe/FontFileTools/main/Tools_TTX_ID_ReSequencing.py
+https://raw.githubusercontent.com/andrewsipe/FontFileTools/main/Tools_UPM_Rescaler.py
 https://raw.githubusercontent.com/andrewsipe/FontFileTools/main/Tools_VF_Metadata_Extractor.py
 https://raw.githubusercontent.com/andrewsipe/FontFileTools/main/Tools_VariableFonts_VarStoreAxesFixer.py
 https://raw.githubusercontent.com/andrewsipe/FontFileTools/main/requirements.txt

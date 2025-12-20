@@ -338,8 +338,8 @@ For more information, see:
 
     # Check fonttools availability
     try:
-        from fontTools.ttLib import TTFont
-        from fontTools.ttLib.scaleUpem import scale_upem
+        from fontTools.ttLib import TTFont  # noqa: F401
+        from fontTools.ttLib.scaleUpem import scale_upem  # noqa: F401
     except ImportError:
         cs.StatusIndicator("error").with_explanation(
             "fonttools is required. Install with: pip install fonttools"
