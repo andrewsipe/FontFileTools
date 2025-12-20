@@ -1,0 +1,35 @@
+# Root directory
+https://raw.githubusercontent.com/andrewsipe/FontFileTools/main/README.md
+https://raw.githubusercontent.com/andrewsipe/FontFileTools/main/Tools_AdvancedWidth_DetectandFix.py
+https://raw.githubusercontent.com/andrewsipe/FontFileTools/main/Tools_FileSorter_ByVendorAbbreviation.py
+https://raw.githubusercontent.com/andrewsipe/FontFileTools/main/Tools_FontFixer.py
+https://raw.githubusercontent.com/andrewsipe/FontFileTools/main/Tools_GASP_TableFixer.py
+https://raw.githubusercontent.com/andrewsipe/FontFileTools/main/Tools_GSUB_GPOS_CoverageTableSorter.py
+https://raw.githubusercontent.com/andrewsipe/FontFileTools/main/Tools_ListGenerator.py
+https://raw.githubusercontent.com/andrewsipe/FontFileTools/main/Tools_RIBBI_NameBuilder.py
+https://raw.githubusercontent.com/andrewsipe/FontFileTools/main/Tools_RIBBI_NameCleaner.py
+https://raw.githubusercontent.com/andrewsipe/FontFileTools/main/Tools_ReCenter_A_Glyph.py
+https://raw.githubusercontent.com/andrewsipe/FontFileTools/main/Tools_TTX_GSUB_GPOS_CoverageTableSorter.py
+https://raw.githubusercontent.com/andrewsipe/FontFileTools/main/Tools_TTX_ID_ReSequencing.py
+https://raw.githubusercontent.com/andrewsipe/FontFileTools/main/Tools_VF_Metadata_Extractor.py
+https://raw.githubusercontent.com/andrewsipe/FontFileTools/main/Tools_VariableFonts_VarStoreAxesFixer.py
+https://raw.githubusercontent.com/andrewsipe/FontFileTools/main/requirements.txt
+
+# FontCore/
+https://raw.githubusercontent.com/andrewsipe/FontCore/main/CoreDemoTool.py
+https://raw.githubusercontent.com/andrewsipe/FontCore/main/README.md
+https://raw.githubusercontent.com/andrewsipe/FontCore/main/__init__.py
+https://raw.githubusercontent.com/andrewsipe/FontCore/main/core_console_styles.py
+https://raw.githubusercontent.com/andrewsipe/FontCore/main/core_error_handling.py
+https://raw.githubusercontent.com/andrewsipe/FontCore/main/core_file_collector.py
+https://raw.githubusercontent.com/andrewsipe/FontCore/main/core_filename_parts_parser.py
+https://raw.githubusercontent.com/andrewsipe/FontCore/main/core_font_sorter.py
+https://raw.githubusercontent.com/andrewsipe/FontCore/main/core_font_style_dictionaries.py
+https://raw.githubusercontent.com/andrewsipe/FontCore/main/core_logging_config.py
+https://raw.githubusercontent.com/andrewsipe/FontCore/main/core_name_policies.py
+https://raw.githubusercontent.com/andrewsipe/FontCore/main/core_nameid_replacer_base.py
+https://raw.githubusercontent.com/andrewsipe/FontCore/main/core_namerecord_matcher.py
+https://raw.githubusercontent.com/andrewsipe/FontCore/main/core_string_utils.py
+https://raw.githubusercontent.com/andrewsipe/FontCore/main/core_ttx_table_io.py
+https://raw.githubusercontent.com/andrewsipe/FontCore/main/core_variable_font_detection.py
+https://raw.githubusercontent.com/andrewsipe/FontCore/main/requirements.txt
