@@ -1,5 +1,15 @@
 #!/usr/bin/env python3
 """
+DEPRECATED: This script has been refactored into a modular structure.
+
+New location: FontFixer/main.py
+
+This file is kept for reference only. Please use the new modular version.
+
+---
+
+Original documentation:
+
 Standalone Font Fixer using fonttools
 
 A high-performance font validation and correction tool that applies comprehensive
