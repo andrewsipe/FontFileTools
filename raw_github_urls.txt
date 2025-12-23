@@ -1,15 +1,14 @@
 # Root directory
+https://raw.githubusercontent.com/andrewsipe/FontFileTools/main/CoverageSorter.py
 https://raw.githubusercontent.com/andrewsipe/FontFileTools/main/README.md
 https://raw.githubusercontent.com/andrewsipe/FontFileTools/main/Tools_AdvancedWidth_DetectandFix.py
 https://raw.githubusercontent.com/andrewsipe/FontFileTools/main/Tools_FileSorter_ByVendorAbbreviation.py
 https://raw.githubusercontent.com/andrewsipe/FontFileTools/main/Tools_FontFixer.py
 https://raw.githubusercontent.com/andrewsipe/FontFileTools/main/Tools_GASP_TableFixer.py
-https://raw.githubusercontent.com/andrewsipe/FontFileTools/main/Tools_GSUB_GPOS_CoverageTableSorter.py
 https://raw.githubusercontent.com/andrewsipe/FontFileTools/main/Tools_ListGenerator.py
 https://raw.githubusercontent.com/andrewsipe/FontFileTools/main/Tools_RIBBI_NameBuilder.py
 https://raw.githubusercontent.com/andrewsipe/FontFileTools/main/Tools_RIBBI_NameCleaner.py
 https://raw.githubusercontent.com/andrewsipe/FontFileTools/main/Tools_ReCenter_A_Glyph.py
-https://raw.githubusercontent.com/andrewsipe/FontFileTools/main/Tools_TTX_GSUB_GPOS_CoverageTableSorter.py
 https://raw.githubusercontent.com/andrewsipe/FontFileTools/main/Tools_TTX_ID_ReSequencing.py
 https://raw.githubusercontent.com/andrewsipe/FontFileTools/main/Tools_UPM_Rescaler.py
 https://raw.githubusercontent.com/andrewsipe/FontFileTools/main/Tools_VF_Metadata_Extractor.py

@@ -3417,10 +3417,8 @@ def display_preflight_info(config: ProcessingConfig, font_paths: list[Path]):
         cs.emit(f"  - {cs.fmt_file_compact(str(path))}", console=console)
 
     if config.dry_run:
-        cs.emit("")
-        cs.StatusIndicator("preview").add_message(
-            "DRY RUN MODE: No changes will be made"
-        ).emit(console)
+        # DRY prefix will be added automatically by StatusIndicator when dry_run=True
+        # This script exits early in dry-run mode, so no processing messages are shown
         sys.exit(0)
 
 

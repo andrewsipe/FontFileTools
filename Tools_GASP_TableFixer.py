@@ -411,10 +411,9 @@ def main() -> None:
     # default behavior per request: only fill when existing gasp table is present but empty
     # --add allows creating one when missing; --remove deletes it.
 
+    # DRY prefix will be added automatically by StatusIndicator when dry_run=True
+    # No need for separate dry-run notice
     if args.dry_run:
-        cs.StatusIndicator("warning").with_explanation(
-            "Dry run mode - no changes will be made"
-        ).emit()
         for file in font_files:
             ext = Path(file).suffix.lower()
             action = ""
@@ -464,9 +463,11 @@ def main() -> None:
                 action = "Error reading; skipping"
 
             desc = ", ".join([f"{rng}:0x{beh:04X}" for rng, beh in profile])
-            cs.StatusIndicator("info").add_file(file).add_message("Would set:").emit()
-            cs.StatusIndicator("info").add_field("Action", action).emit()
-            cs.StatusIndicator("info").add_field("Profile", f"{{{desc}}}").emit()
+            # Use same StatusIndicator for both dry-run and normal mode
+            # DRY prefix will be added automatically when dry_run=True
+            cs.StatusIndicator("updated", dry_run=True).add_file(file).add_message("Would set:").emit()
+            cs.StatusIndicator("updated", dry_run=True).add_field("Action", action).emit()
+            cs.StatusIndicator("updated", dry_run=True).add_field("Profile", f"{{{desc}}}").emit()
         return
 
     # Confirmation prompt

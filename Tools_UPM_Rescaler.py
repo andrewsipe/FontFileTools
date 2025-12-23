@@ -177,17 +177,13 @@ def rescale_font_upem(
                 ).emit()
                 return False, error_msg
 
-            # Success
-            cs.StatusIndicator("updated").add_file(
+            # Use same StatusIndicator for both dry-run and normal mode
+            # DRY prefix will be added automatically when dry_run=True
+            cs.StatusIndicator("updated", dry_run=args.dry_run).add_file(
                 str(output_path) if output_dir else str(font_path)
             ).add_field("UPM", f"{current_upem} → {new_current_upem}").emit()
-        else:
-            # Dry-run mode
-            cs.StatusIndicator("preview").add_file(str(font_path)).add_field(
-                "Would change UPM", f"{current_upem} → {new_upem}"
-            ).emit()
             if cff_warning:
-                cs.StatusIndicator("info").with_explanation(cff_warning).emit()
+                cs.StatusIndicator("info", dry_run=args.dry_run).with_explanation(cff_warning).emit()
 
         return True, None
 
@@ -361,10 +357,8 @@ For more information, see:
     ).emit()
     cs.StatusIndicator("info").add_field("Target UPM", args.new_upem).emit()
 
-    if args.dry_run:
-        cs.StatusIndicator("warning").with_explanation(
-            "Dry run mode - no changes will be made"
-        ).emit()
+    # DRY prefix will be added automatically by StatusIndicator when dry_run=True
+    # No need for separate dry-run notice
 
     if args.verbose:
         cs.StatusIndicator("info").with_explanation("Verbose mode enabled").emit()
@@ -422,7 +416,7 @@ For more information, see:
 
     # Summary
     cs.emit("")
-    cs.StatusIndicator("info").add_message("Processing complete").emit()
+    cs.StatusIndicator("success").add_message("Processing Complete").emit()
     cs.StatusIndicator("info").add_field(
         "Processed", cs.fmt_count(success_count)
     ).emit()

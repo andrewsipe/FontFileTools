@@ -709,10 +709,9 @@ def main() -> None:
     slope_override = args.slope if (args.Italic or args.BoldItalic) else None
 
     # Preview
+    # DRY prefix will be added automatically by StatusIndicator when dry_run=True
+    # No need for separate dry-run notice
     if args.dry_run:
-        cs.StatusIndicator("warning").with_explanation(
-            "Dry run mode - no changes will be made"
-        ).emit()
         for file in font_files:
             try:
                 ext = Path(file).suffix.lower()
@@ -730,32 +729,34 @@ def main() -> None:
                 id1_val, id2_val, id4_val, id17_val = _compute_id_values(
                     args.family, args.modifier, target, is_italic, slope_override
                 )
-                cs.StatusIndicator("info", dry_run=True).add_file(file).add_message(
+                # Use same StatusIndicator for both dry-run and normal mode
+                # DRY prefix will be added automatically when dry_run=True
+                cs.StatusIndicator("updated", dry_run=True).add_file(file).add_message(
                     "Would set:"
                 ).emit()
-                cs.StatusIndicator("info", dry_run=True).add_field(
+                cs.StatusIndicator("updated", dry_run=True).add_field(
                     "nameID=1", id1_val
                 ).emit()
-                cs.StatusIndicator("info", dry_run=True).add_field(
+                cs.StatusIndicator("updated", dry_run=True).add_field(
                     "nameID=2", id2_val
                 ).emit()
-                cs.StatusIndicator("info", dry_run=True).add_field(
+                cs.StatusIndicator("updated", dry_run=True).add_field(
                     "nameID=4", id4_val
                 ).emit()
-                cs.StatusIndicator("info", dry_run=True).add_field(
+                cs.StatusIndicator("updated", dry_run=True).add_field(
                     "nameID=16", args.family
                 ).emit()
-                cs.StatusIndicator("info", dry_run=True).add_field(
+                cs.StatusIndicator("updated", dry_run=True).add_field(
                     "nameID=17", id17_val
                 ).emit()
                 if override_subfamily:
                     w = 700 if "Bold" in override_subfamily else 400
-                    cs.StatusIndicator("info", dry_run=True).add_field(
+                    cs.StatusIndicator("updated", dry_run=True).add_field(
                         "usWeightClass", w
                     ).emit()
             except Exception as e:
-                cs.StatusIndicator("warning").add_file(file).with_explanation(
-                    f"Dry-run preview failed: {e}"
+                cs.StatusIndicator("warning", dry_run=True).add_file(file).with_explanation(
+                    f"Preview failed: {e}"
                 ).emit()
         return
 

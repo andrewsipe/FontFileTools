@@ -968,10 +968,9 @@ def main():
         for f in font_files:
             cs.StatusIndicator("info").add_file(f).emit()
 
+    # DRY prefix will be added automatically by StatusIndicator when dry_run=True
+    # No need for separate dry-run notice
     if args.dry_run:
-        cs.StatusIndicator("warning").with_explanation(
-            "Dry run mode - no changes will be made"
-        ).emit()
         # Summarize intended actions per file
         for file in font_files:
             ext = Path(file).suffix.lower()
@@ -1005,7 +1004,9 @@ def main():
                 ribbi = ("Bold" if weight == 700 else "Regular") + (
                     " Italic" if italic else ""
                 )
-                cs.StatusIndicator("info", dry_run=True).add_file(file).add_message(
+                # Use same StatusIndicator for both dry-run and normal mode
+                # DRY prefix will be added automatically when dry_run=True
+                cs.StatusIndicator("updated", dry_run=True).add_file(file).add_message(
                     f"Would normalize to RIBBI='{ribbi}'"
                 ).emit()
             except Exception:
