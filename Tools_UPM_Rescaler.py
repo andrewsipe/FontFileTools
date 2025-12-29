@@ -183,7 +183,9 @@ def rescale_font_upem(
                 str(output_path) if output_dir else str(font_path)
             ).add_field("UPM", f"{current_upem} → {new_current_upem}").emit()
             if cff_warning:
-                cs.StatusIndicator("info", dry_run=args.dry_run).with_explanation(cff_warning).emit()
+                cs.StatusIndicator("info", dry_run=args.dry_run).with_explanation(
+                    cff_warning
+                ).emit()
 
         return True, None
 

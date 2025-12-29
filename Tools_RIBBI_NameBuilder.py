@@ -755,9 +755,9 @@ def main() -> None:
                         "usWeightClass", w
                     ).emit()
             except Exception as e:
-                cs.StatusIndicator("warning", dry_run=True).add_file(file).with_explanation(
-                    f"Preview failed: {e}"
-                ).emit()
+                cs.StatusIndicator("warning", dry_run=True).add_file(
+                    file
+                ).with_explanation(f"Preview failed: {e}").emit()
         return
 
     # Confirmation prompt

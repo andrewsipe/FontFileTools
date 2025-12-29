@@ -465,9 +465,15 @@ def main() -> None:
             desc = ", ".join([f"{rng}:0x{beh:04X}" for rng, beh in profile])
             # Use same StatusIndicator for both dry-run and normal mode
             # DRY prefix will be added automatically when dry_run=True
-            cs.StatusIndicator("updated", dry_run=True).add_file(file).add_message("Would set:").emit()
-            cs.StatusIndicator("updated", dry_run=True).add_field("Action", action).emit()
-            cs.StatusIndicator("updated", dry_run=True).add_field("Profile", f"{{{desc}}}").emit()
+            cs.StatusIndicator("updated", dry_run=True).add_file(file).add_message(
+                "Would set:"
+            ).emit()
+            cs.StatusIndicator("updated", dry_run=True).add_field(
+                "Action", action
+            ).emit()
+            cs.StatusIndicator("updated", dry_run=True).add_field(
+                "Profile", f"{{{desc}}}"
+            ).emit()
         return
 
     # Confirmation prompt
