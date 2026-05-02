@@ -2,6 +2,9 @@
 https://raw.githubusercontent.com/andrewsipe/FontFileTools/main/.gitmodules
 https://raw.githubusercontent.com/andrewsipe/FontFileTools/main/CoverageSorter.py
 https://raw.githubusercontent.com/andrewsipe/FontFileTools/main/FontCore
+https://raw.githubusercontent.com/andrewsipe/FontFileTools/main/HoeflerSpaceCombiner.py
+https://raw.githubusercontent.com/andrewsipe/FontFileTools/main/JungLeeMergeTool.py
+https://raw.githubusercontent.com/andrewsipe/FontFileTools/main/MorisawaDownloader.py
 https://raw.githubusercontent.com/andrewsipe/FontFileTools/main/README.md
 https://raw.githubusercontent.com/andrewsipe/FontFileTools/main/Tools_AdvancedWidth_DetectandFix.py
 https://raw.githubusercontent.com/andrewsipe/FontFileTools/main/Tools_FileSorter_ByVendorAbbreviation.py
@@ -15,6 +18,7 @@ https://raw.githubusercontent.com/andrewsipe/FontFileTools/main/Tools_TTX_ID_ReS
 https://raw.githubusercontent.com/andrewsipe/FontFileTools/main/Tools_UPM_Rescaler.py
 https://raw.githubusercontent.com/andrewsipe/FontFileTools/main/Tools_VF_Metadata_Extractor.py
 https://raw.githubusercontent.com/andrewsipe/FontFileTools/main/Tools_VariableFonts_VarStoreAxesFixer.py
+https://raw.githubusercontent.com/andrewsipe/FontFileTools/main/VF_AxisFormat_Scanner.py
 https://raw.githubusercontent.com/andrewsipe/FontFileTools/main/requirements.txt
 
 # FontCore/
