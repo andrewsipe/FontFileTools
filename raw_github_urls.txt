@@ -1,7 +1,6 @@
 # Root directory
 https://raw.githubusercontent.com/andrewsipe/FontFileTools/main/.gitmodules
 https://raw.githubusercontent.com/andrewsipe/FontFileTools/main/CoverageSorter.py
-https://raw.githubusercontent.com/andrewsipe/FontFileTools/main/FontCore
 https://raw.githubusercontent.com/andrewsipe/FontFileTools/main/HoeflerSpaceCombiner.py
 https://raw.githubusercontent.com/andrewsipe/FontFileTools/main/JungLeeMergeTool.py
 https://raw.githubusercontent.com/andrewsipe/FontFileTools/main/MorisawaDownloader.py
