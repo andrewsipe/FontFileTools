@@ -1,98 +1,64 @@
-# Tools
+# Font File Tools
 
-Various utility tools for font processing, fixing, and analysis.
+Specialized utilities for font processing, fixing, and analysis. Grab-bag package — each script is a standalone CLI.
 
-## Overview
-
-A collection of specialized tools for specific font processing tasks, including OpenType table manipulation, font fixing, metadata extraction, and more.
+Older `Tools_FontFixer.py` and a one-shot Morisawa downloader live under `_misc/_archive/`. See `PRODUCT_REFINEMENT_NOTES.md` for product-pass notes.
 
 ## Scripts
 
-### `Tools_ListGenerator.py`
-Generate a simple text list of font filenames (without extensions) for analysis.
+### Lists / organize
+| Script | Role |
+|--------|------|
+| `Tools_ListGenerator.py` | Write a filename list (no extensions) |
+| `Tools_FileSorter_ByVendorAbbreviation.py` | Sort files by OS/2 `achVendID` |
 
-**Usage:**
+### Table / outline fixes
+| Script | Role |
+|--------|------|
+| `Tools_GASP_TableFixer.py` | GASP table fixes |
+| `CoverageSorter.py` | Sort GSUB/GPOS Coverage by glyph ID |
+| `Tools_TTX_ID_ReSequencing.py` | Resequence IDs in TTX |
+| `Tools_AdvancedWidth_DetectandFix.py` | Advanced width detect/fix |
+| `Tools_UPM_Rescaler.py` | Rescale unitsPerEm |
+| `Tools_ReCenter_A_Glyph.py` | Recenter a glyph |
+| `fix_corrupt_gvar.py` | Repair corrupt gvar |
+| `fix_oversized_glyf_hints.py` | Oversized glyf hints |
+
+### Names
+| Script | Role |
+|--------|------|
+| `Tools_RIBBI_NameBuilder.py` | Build RIBBI names |
+| `Tools_RIBBI_NameCleaner.py` | Clean RIBBI names |
+
+### Variable fonts
+| Script | Role |
+|--------|------|
+| `Tools_VariableFonts_VarStoreAxesFixer.py` | VarStore axes fix |
+| `Tools_VF_Metadata_Extractor.py` | Extract VF metadata / abbrev dict |
+| `VF_AxisFormat_Scanner.py` | Scan VF axis formats |
+
+### Foundry-specific workflows
+| Script | Role |
+|--------|------|
+| `HoeflerSpaceCombiner.py` | Merge `{name}` + `{name}-Space` pairs |
+| `JungLeeMergeTool.py` | Merge Jung Lee A/B/(C) split fonts |
+
+## Quick examples
+
 ```bash
+cd FontFileTools
 python Tools_ListGenerator.py /path/to/fonts
-# Creates filename_list.txt in the input directory
+python CoverageSorter.py font.otf
+python Tools_UPM_Rescaler.py 1000 fonts/ -r --dry-run
+python JungLeeMergeTool.py /path/to/converted/fonts
 ```
-
-### `Tools_FontFixer.py`
-Comprehensive font fixing tool with multiple fix strategies.
-
-### `Tools_GASP_TableFixer.py`
-Fix GASP (Grid-fitting and Scan-conversion Procedure) table issues.
-
-### `Tools_GSUB_GPOS_CoverageTableSorter.py`
-Sort coverage tables in GSUB/GPOS OpenType tables.
-
-**Usage:**
-```bash
-python Tools_GSUB_GPOS_CoverageTableSorter.py font.otf
-```
-
-### `Tools_TTX_GSUB_GPOS_CoverageTableSorter.py`
-Sort coverage tables using TTX (XML) format.
-
-### `Tools_TTX_ID_ReSequencing.py`
-Resequence ID numbers in TTX files.
-
-### `Tools_AdvancedWidth_DetectandFix.py`
-Detect and fix advanced width issues in fonts.
-
-### `Tools_ReCenter_A_Glyph.py`
-Recenter a specific glyph in a font.
-
-### `Tools_RIBBI_NameBuilder.py`
-Build RIBBI (Regular, Italic, Bold, Bold Italic) names.
-
-### `Tools_RIBBI_NameCleaner.py`
-Clean RIBBI names in font metadata.
-
-### `Tools_VariableFonts_VarStoreAxesFixer.py`
-Fix variable font VarStore axes issues.
-
-### `Tools_VF_Metadata_Extractor.py`
-Extract metadata from variable fonts.
-
-### `Tools_FileSorter_ByVendorAbbreviation.py`
-Sort font files by vendor abbreviations.
-
-## OpenType Features Generator
-
-The OpenType Features Generator (`Opentype_FeaturesGenerator.py`) is available as a separate repository. See [OpentypeFeaturesGenerator](https://github.com/andrewsipe/OpentypeFeaturesGenerator) for documentation.
-
-## Common Options
-
-Most tools support:
-- `-R, --recursive` - Process directories recursively
-- `--dry-run` - Preview changes without modifying files
-- `-V, --verbose` - Show detailed processing information
 
 ## Dependencies
 
-See `requirements.txt`:
-- `fontFeatures` - Font feature processing (optional but recommended)
-- `lxml` - XML processing for TTX tools
-- `rich` - Console output formatting
-- Core dependencies (fonttools) provided by included `core/` library
+See `requirements.txt` (`fonttools`, `rich`, `lxml`, optional `fontFeatures`). Shared helpers via `FontCore/`.
 
-## Installation
+## Related
 
-1. Clone this repository:
-```bash
-git clone https://github.com/andrewsipe/FontFileTools.git
-cd FontFileTools
-```
-
-2. Install dependencies:
-```bash
-pip install -r requirements.txt
-```
-
-## Related Tools
-
-- [OpentypeFeaturesGenerator](https://github.com/andrewsipe/OpentypeFeaturesGenerator) - OpenType feature generation
-- [FontNameID](https://github.com/andrewsipe/FontNameID) - Font metadata editing
-- [FontMetricsNormalizer](https://github.com/andrewsipe/FontMetricsNormalizer) - Font metrics normalization
-
+- [FontFixer](https://github.com/andrewsipe/FontFixer) — single-pass structural fixer (replaces archived Tools_FontFixer)
+- [Opentype_Tools](https://github.com/andrewsipe/OpentypeFeaturesGenerator) — OT feature tooling (also has a Coverage sorter)
+- [FontNameID](https://github.com/andrewsipe/FontNameID) — NameID editing

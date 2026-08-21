@@ -1,7 +1,6 @@
 # Root directory
 https://raw.githubusercontent.com/andrewsipe/FontFileTools/main/.gitmodules
 https://raw.githubusercontent.com/andrewsipe/FontFileTools/main/CoverageSorter.py
-https://raw.githubusercontent.com/andrewsipe/FontFileTools/main/FontCore
 https://raw.githubusercontent.com/andrewsipe/FontFileTools/main/HoeflerSpaceCombiner.py
 https://raw.githubusercontent.com/andrewsipe/FontFileTools/main/JungLeeMergeTool.py
 https://raw.githubusercontent.com/andrewsipe/FontFileTools/main/MorisawaDownloader.py
@@ -48,6 +47,7 @@ https://raw.githubusercontent.com/andrewsipe/FontCore/main/core_namerecord_match
 https://raw.githubusercontent.com/andrewsipe/FontCore/main/core_namerecord_writer.py
 https://raw.githubusercontent.com/andrewsipe/FontCore/main/core_ot_label_reflow.py
 https://raw.githubusercontent.com/andrewsipe/FontCore/main/core_ot_label_scanner.py
+https://raw.githubusercontent.com/andrewsipe/FontCore/main/core_ot_label_suggest.py
 https://raw.githubusercontent.com/andrewsipe/FontCore/main/core_stat_builder.py
 https://raw.githubusercontent.com/andrewsipe/FontCore/main/core_string_utils.py
 https://raw.githubusercontent.com/andrewsipe/FontCore/main/core_ttx_table_io.py
