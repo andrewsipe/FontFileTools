@@ -1,13 +1,13 @@
 # Root directory
 https://raw.githubusercontent.com/andrewsipe/FontFileTools/main/.gitmodules
 https://raw.githubusercontent.com/andrewsipe/FontFileTools/main/CoverageSorter.py
+https://raw.githubusercontent.com/andrewsipe/FontFileTools/main/FontCore
 https://raw.githubusercontent.com/andrewsipe/FontFileTools/main/HoeflerSpaceCombiner.py
 https://raw.githubusercontent.com/andrewsipe/FontFileTools/main/JungLeeMergeTool.py
-https://raw.githubusercontent.com/andrewsipe/FontFileTools/main/MorisawaDownloader.py
+https://raw.githubusercontent.com/andrewsipe/FontFileTools/main/PRODUCT_REFINEMENT_NOTES.md
 https://raw.githubusercontent.com/andrewsipe/FontFileTools/main/README.md
 https://raw.githubusercontent.com/andrewsipe/FontFileTools/main/Tools_AdvancedWidth_DetectandFix.py
 https://raw.githubusercontent.com/andrewsipe/FontFileTools/main/Tools_FileSorter_ByVendorAbbreviation.py
-https://raw.githubusercontent.com/andrewsipe/FontFileTools/main/Tools_FontFixer.py
 https://raw.githubusercontent.com/andrewsipe/FontFileTools/main/Tools_GASP_TableFixer.py
 https://raw.githubusercontent.com/andrewsipe/FontFileTools/main/Tools_ListGenerator.py
 https://raw.githubusercontent.com/andrewsipe/FontFileTools/main/Tools_RIBBI_NameBuilder.py
@@ -24,6 +24,7 @@ https://raw.githubusercontent.com/andrewsipe/FontFileTools/main/requirements.txt
 
 # FontCore/
 https://raw.githubusercontent.com/andrewsipe/FontCore/main/CoreDemoTool.py
+https://raw.githubusercontent.com/andrewsipe/FontCore/main/PRODUCT_REFINEMENT_NOTES.md
 https://raw.githubusercontent.com/andrewsipe/FontCore/main/README.md
 https://raw.githubusercontent.com/andrewsipe/FontCore/main/__init__.py
 https://raw.githubusercontent.com/andrewsipe/FontCore/main/core_console_config.py
