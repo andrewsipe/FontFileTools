@@ -59,6 +59,17 @@ See `requirements.txt` (`fonttools`, `rich`, `lxml`, optional `fontFeatures`). S
 
 ## Related
 
-- [FontFixer](https://github.com/andrewsipe/FontFixer) — single-pass structural fixer (replaces archived Tools_FontFixer)
+- [FontFixer](https://github.com/andrewsipe/FontFixer) — standalone tidy-up CLI (OS/2, style, glyph, kern); not in this monorepo
 - [Opentype_Tools](https://github.com/andrewsipe/OpentypeFeaturesGenerator) — OT feature tooling (also has a Coverage sorter)
 - [FontNameID](https://github.com/andrewsipe/FontNameID) — NameID editing
+
+## FontCore dependency
+
+This tool imports the shared [`FontCore`](https://github.com/andrewsipe/FontCore) package (`import FontCore…`). It is **not** vendored or a submodule here. On a fresh machine:
+
+```bash
+git clone https://github.com/andrewsipe/FontCore.git ../FontCore
+python3 -m pip install -e ../FontCore
+```
+
+(In the author's monorepo checkout, `./FontCore` is a local symlink to `../FontCore/src/FontCore`; it is git-ignored.)

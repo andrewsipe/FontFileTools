@@ -82,3 +82,6 @@ Desktop.ini
 # Font processing temporary files
 *.ttx.tmp
 temp_font_metadata.tmp
+
+# Local dev symlink to ../FontCore/src/FontCore (see README: FontCore dependency)
+/FontCore
